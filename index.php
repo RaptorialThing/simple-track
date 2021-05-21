@@ -13,11 +13,12 @@ try {
     $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
 
 
-    $result = Request::checkChatInvite([
-    'chat_id' => '-489273514'
+    $result = Request::sendChatAction([
+    'chat_id' => '-489273514',
+    'action' => Longman\TelegramBot\ChatAction::EXPORT_CHAT_INVITE
 ]);
     if ($result->isOk()) {
-        echo $result->getDescription();
+        print_r($result);
     }
 } catch (Longman\TelegramBot\Exception\TelegramException $e) {
     // log telegram errors
