@@ -54,7 +54,7 @@ class WorkerDB extends DB {
         }
     }
 
-public static function selectWorkerByPhone(int $id,$limit=0)
+public static function selectWorkerById(int $id,$limit=0)
     {
         if (!self::isDbConnected()) {
             return false;
