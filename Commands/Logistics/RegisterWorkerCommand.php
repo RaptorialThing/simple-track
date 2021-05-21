@@ -87,7 +87,7 @@ class RegisterWorkerCommand extends UserCommand
 
          $result = $this->worker->load('800');
 
-         $text = $this->arr2Str($text);
+         $text = $this->arr2Str($result);
          
 
         if (!$result) {
