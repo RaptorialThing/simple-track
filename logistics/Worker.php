@@ -56,7 +56,7 @@ class Worker
     }
 
 
-    public function __construct(int $id, string $name, string $address, bool $statusIsFree, string $phone) {
+    public function __construct(int $id, string $name, int $address, bool $statusIsFree, string $phone) {
         
         $this->id=$id;
         $this->name=$name;

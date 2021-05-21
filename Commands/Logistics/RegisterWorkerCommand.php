@@ -106,7 +106,7 @@ class RegisterWorkerCommand extends UserCommand
         switch ($state) {
             case 0:
                 if ($message->getContact() === null) {
-                    $notes['state'] = 1;
+                    $notes['state'] = 0;
                     $this->conversation->update();
 
                     $data['reply_markup'] = (new Keyboard(
@@ -125,7 +125,7 @@ class RegisterWorkerCommand extends UserCommand
             // No break!
             case 1:
                 if ($text === '') {
-                    $notes['state'] = 2;
+                    $notes['state'] = 1;
                     $this->conversation->update();
 
                     $data['text'] = 'Напишите код города :';
