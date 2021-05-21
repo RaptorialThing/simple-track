@@ -115,7 +115,7 @@ class RegisterWorkerCommand extends UserCommand
                     break;
                 }
 
-                $notes['contact_phone'] = $text;
+                $notes['phone'] = $text;
                 $text          = '';
 
             // No break!
