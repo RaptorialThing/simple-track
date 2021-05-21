@@ -122,7 +122,8 @@ class RegisterWorkerCommand extends UserCommand
                     $result = Request::sendMessage($data);
                     break;
                 }        
-
+                    $notes['phone'] = $text;
+                    $text             = '';
             // No break!
             case 1:
                 if ($text === '') {
