@@ -24,6 +24,8 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
+use Longman\TelegramBot\Entities\Logistics\Worker;
+use Longman\TelegramBot\Entities\Logistics\WorkerDB;
 
 class RegisterWorkerCommand extends UserCommand
 {
@@ -52,6 +54,8 @@ class RegisterWorkerCommand extends UserCommand
      */
     protected $need_mysql = true;
 
+    protected $worker;
+
     /**
      * Main command execution if no DB connection is available
      *
@@ -70,14 +74,35 @@ class RegisterWorkerCommand extends UserCommand
      */
     public function execute(): ServerResponse
     {
-        $text = 'database connect test';
+         $message = $this->getMessage();
+         $user_id = $user->getId();
+
+         $this->worker = new Worker($user_id,'test',1,1,'800')
+
+         $result = $this->worker->insert();
+
+         if (!$result) {
+            $text = 'error saving to database';
+         }
+
+         $result = $this->worker->load('800');
+
+         $text = $result;
+
+        if (!$result) {
+            $text = 'error fetching from database';
+         }
+
+         return $this->replyToChat($text);
+
+        /* $text = 'database connect test';
 
         $message = $this->getMessage();
         $userText    = $message->getText(true);
 
         if ($userText === '') {
             return $this->replyToChat('Command usage: ' . $this->getUsage());
-        }
+        } */
 
         return $this->replyToChat($text);
     }
