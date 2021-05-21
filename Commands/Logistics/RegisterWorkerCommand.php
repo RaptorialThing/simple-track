@@ -138,15 +138,6 @@ class RegisterWorkerCommand extends UserCommand
                 $notes['address'] = $text;
                 $text             = '';
             case 2:
-                $this->conversation->update();
-                unset($notes['state']);
-                foreach ($notes as $k => $v) {
-                    $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
-                }
-
-                $data['caption'] = $text;
-
-
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
 
                 $result = $this->worker->insert();
@@ -164,12 +155,11 @@ class RegisterWorkerCommand extends UserCommand
                     $text = 'error fetching from database';
                 } 
 
-                return $this->replyToChat($text);
-
-
+                $this->conversation->update();
+                unset($notes['state']);
                 $this->conversation->stop();
 
-                $result = Request::sendPhoto($data);
+                return $this->replyToChat($text);
                 break;
         }                
 
