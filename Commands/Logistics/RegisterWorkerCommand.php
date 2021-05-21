@@ -26,6 +26,9 @@ use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 use Logistics\Worker;
 use Logistics\WorkerDB;
+use Longman\TelegramBot\Conversation;
+use Longman\TelegramBot\Entities\Keyboard;
+use Longman\TelegramBot\Entities\KeyboardButton;
 
 class RegisterWorkerCommand extends UserCommand
 {
