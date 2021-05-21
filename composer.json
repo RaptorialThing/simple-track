@@ -1,6 +1,6 @@
 {
     "require": {
-        "longman/telegram-bot": "^0.72.0",
+        "longman/telegram-bot": "*",
         "php-telegram-bot/telegram-bot-manager": "*"
     }
 }
