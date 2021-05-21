@@ -58,9 +58,11 @@ class Worker extends Entity
 
     public function __construct(int $id, string $name, string $address, bool $statusIsFree, string $phone) {
         
-        foreach (['id'=>$id,'name'=>$name,'address'=>$address,'statusIsFree'=>$statusIsFree,'phone'=>$phone] as $prop=>$val) {
-            $this->setter($prop,$val);
-        }
+        $this->setter('id',$id);
+        $this->setter('name',$name);
+        $this->setter('address',$address);
+        $this->setter('statusIsFree',$statusIsFree);
+        $this->setter('phone',$phone);
 
     }
 
