@@ -120,7 +120,7 @@ class RegisterWorkerCommand extends UserCommand
 
                     $result = Request::sendMessage($data);
                     break;
-                }        = '';
+                }        
 
             // No break!
             case 1:
