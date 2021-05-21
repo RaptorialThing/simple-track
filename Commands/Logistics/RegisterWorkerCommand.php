@@ -108,4 +108,5 @@ class RegisterWorkerCommand extends UserCommand
         return $this->replyToChat($text);*/
     }
 
+
 }

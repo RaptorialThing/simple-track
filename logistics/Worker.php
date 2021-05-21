@@ -75,13 +75,13 @@ class Worker
         return WorkerDB::selectWorkerByPhone($phone);
     }
 
-       public   function arr2Str($var) {
+       private   function arr2Str($var) {
 
             if (is_array($var)) {
                 
 
             foreach ($var as $k=>$v) {
-                $var[$k]=arrToStr($v);
+                $var[$k]=$this->arrToStr($v);
             }
 
             $var = implode(",",$var);
