@@ -65,20 +65,20 @@ class WorkerDB extends DB {
         }
 
         try {
-            $sth = self::$pdo->prepare('INSERT INTO `' . static::TB_WORKERS . '`
+            $sth = self::$pdo->prepare("INSERT INTO `". static::TB_WORKERS ."`
                 (`id`, `name`, `address`, `status_is_free`, `contact_phone`, `registration_date`)
                 VALUES
-                (`:id`,  `:name`, `:address`, `:status`, `:phone`, `date`)
-            ');
+                (`:id`,  `:name`, `:address`, `:status`, `:phone`, `:date`)
+            ");
 
             $date = self::getTimestamp();
 
-            $sth->bindValue(':id', 1);
-            $sth->bindValue(':status', true);
-            $sth->bindValue(':name', 'alex');
-            $sth->bindValue(':address', 1);
-            $sth->bindValue(':phone', '800');
-            $sth->bindValue(':date', $date);
+            $sth->bindValue(":id", $id);
+            $sth->bindValue(":status", $statusIsFree);
+            $sth->bindValue(":name", $name);
+            $sth->bindValue(":address", $address);
+            $sth->bindValue(":phone", $phone);
+            $sth->bindValue(":date", $date);
 
 
             return $sth->execute();
