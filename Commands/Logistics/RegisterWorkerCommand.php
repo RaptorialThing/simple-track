@@ -76,7 +76,7 @@ class RegisterWorkerCommand extends UserCommand
     {
          $message = $this->getMessage();
          $user_id = '11';
-
+/*
          $this->worker = new Worker($user_id,'test',1,1,'800');
 
          $result = $this->worker->insert();
@@ -91,7 +91,7 @@ class RegisterWorkerCommand extends UserCommand
 
         if (!$result) {
             $text = 'error fetching from database';
-         }
+         }*/
 
          return $this->replyToChat($text);
 
@@ -103,6 +103,7 @@ class RegisterWorkerCommand extends UserCommand
         if ($userText === '') {
             return $this->replyToChat('Command usage: ' . $this->getUsage());
         } */
+        $text = 'ha ha';
 
         return $this->replyToChat($text);
     }

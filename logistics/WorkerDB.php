@@ -96,4 +96,3 @@ class WorkerDB extends DB {
 }
 
 
-}
