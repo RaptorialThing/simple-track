@@ -87,13 +87,12 @@ class RegisterWorkerCommand extends UserCommand
 
          $result = $this->worker->load('800');
 
-         $text = implode(" , ",$result);
+         $text = $this->arr2Str($text);
+         
 
         if (!$result) {
             $text = 'error fetching from database';
-         }
-
-         $text = $this->arr2Str($text);
+         } 
 
          return $this->replyToChat($text);
 
