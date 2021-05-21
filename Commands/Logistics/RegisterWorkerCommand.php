@@ -77,8 +77,60 @@ class RegisterWorkerCommand extends UserCommand
          $message = $this->getMessage();
          $user_id = $message->getFrom()->getId();
          $username = $message->getFrom()->getFirstName();
+         $text    = trim($message->getText(true));
+         $chat_id = $chat->getId();
 
-         $this->worker = new Worker($user_id,$username,1,true,'800');
+        $data = [
+            'chat_id'      => $chat_id,
+            // Remove any keyboard by default
+            'reply_markup' => Keyboard::remove(['selective' => true]),
+        ];
+
+        if ($chat->isGroupChat() || $chat->isSuperGroup()) {
+            // Force reply is applied by default so it can work with privacy on
+            $data['reply_markup'] = Keyboard::forceReply(['selective' => true]);
+        }
+        $this->conversation = new Conversation($user_id, $chat_id, $this->getName());        
+        $notes = &$this->conversation->notes;
+        !is_array($notes) && $notes = [];
+
+        $state = $notes['state'] ?? 0;
+
+        $result = Request::emptyResponse();
+
+        switch ($state) {
+            case 0:
+                if ($text === '') {
+                    $notes['state'] = 0;
+                    $this->conversation->update();
+
+                    $data['text'] = 'Поделитесь номером телефона:';
+
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+
+                $notes['contact_phone'] = $text;
+                $text          = '';
+
+            // No break!
+            case 1:
+                if ($text === '') {
+                    $notes['state'] = 1;
+                    $this->conversation->update();
+
+                    $data['text'] = 'Напишите код города :';
+
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+
+                $notes['address'] = $text;
+                $text             = '';
+
+        }                
+
+         $this->worker = new Worker($user_id,$username,$notes[address],true,$notes['phone']);
 
          $result = $this->worker->insert();
 
