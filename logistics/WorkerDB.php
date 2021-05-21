@@ -68,7 +68,7 @@ class WorkerDB extends DB {
             $sth = self::$pdo->prepare('INSERT INTO `' . static::TB_WORKERS . '`
                 (`id`, `status_is_free`, `name`, `address`, `phone`, `registration_date`)
                 VALUES
-                (:id, :status, :user_id, `:name`, `:address`, `:phone`, `date`)
+                (:id, :status, `:name`, `:address`, `:phone`, `date`)
             ');
 
             $date = self::getTimestamp();
