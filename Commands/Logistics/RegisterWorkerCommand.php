@@ -74,7 +74,7 @@ class RegisterWorkerCommand extends UserCommand
      */
     public function execute(): ServerResponse
     {
-         $message = $this->getMessage();
+         //$message = $this->getMessage();
          $user_id = $user->getId();
 
          $this->worker = new Worker($user_id,'test',1,1,'800')
