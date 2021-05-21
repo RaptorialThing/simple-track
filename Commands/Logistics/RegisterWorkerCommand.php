@@ -75,7 +75,7 @@ class RegisterWorkerCommand extends UserCommand
     public function execute(): ServerResponse
     {
          //$message = $this->getMessage();
-         $user_id = $user->getId();
+       /*  $user_id = $user->getId();
 
          $this->worker = new Worker($user_id,'test',1,1,'800')
 
@@ -92,8 +92,8 @@ class RegisterWorkerCommand extends UserCommand
         if (!$result) {
             $text = 'error fetching from database';
          }
-
-         return $this->replyToChat($text);
+*/
+         return $this->replyToChat('ha ha ha');
 
         /* $text = 'database connect test';
 
