@@ -122,8 +122,7 @@ class RegisterWorkerCommand extends UserCommand
                     $result = Request::sendMessage($data);
                     break;
                 }        
-                    $notes['phone'] = $text;
-                    $text             = '';
+                    $notes['phone'] = $message->getContact()->getPhoneNumber();
             // No break!
             case 1:
                 if ($text === '') {
@@ -160,7 +159,6 @@ class RegisterWorkerCommand extends UserCommand
                 unset($notes['state']);
                 $this->conversation->stop();
 
-                return $this->replyToChat($text);
                 break;
         }                
 
