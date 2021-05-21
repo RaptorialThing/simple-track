@@ -67,7 +67,7 @@ class Worker
 
     }
 
-    public function insertWorker() {
+    public function insert() {
         return WorkerDB::insertWorker($this->id,$this->name, $this->address, $this->statusIsFree, $this->phone);
     }
 
