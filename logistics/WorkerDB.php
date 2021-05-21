@@ -73,11 +73,11 @@ class WorkerDB extends DB {
 
             $date = self::getTimestamp();
 
-            $sth->bindValue(':id', $id);
-            $sth->bindValue(':status', $statusIsFree);
-            $sth->bindValue(':name', $name);
-            $sth->bindValue(':address', $address);
-            $sth->bindValue(':phone', $phone);
+            $sth->bindValue(':id', 1);
+            $sth->bindValue(':status', true);
+            $sth->bindValue(':name', 'alex');
+            $sth->bindValue(':address', 1);
+            $sth->bindValue(':phone', '800');
             $sth->bindValue(':date', $date);
 
 
