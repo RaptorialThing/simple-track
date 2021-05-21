@@ -109,12 +109,7 @@ class RegisterWorkerCommand extends UserCommand
                     $notes['state'] = 0;
                     $this->conversation->update();
 
-                    $data['reply_markup'] = new Keyboard(
-                         ['7', '8', '9'],
-                         ['4', '5', '6'],
-                         ['1', '2', '3'],
-                         [' ', '0', ' ']
-                        );
+                    $data['text'] = 'Напишите код города :';
 
                     $result = Request::sendMessage($data);
                     break;
