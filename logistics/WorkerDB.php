@@ -75,7 +75,7 @@ class WorkerDB extends DB {
                     `id`       = VALUES(`id`),
                     `address`     = VALUES(`address`),
                     `status_is_free`      = VALUES(`status_is_free`),
-                    `contact_phone`  = VALUES(`phone`),
+                    `contact_phone`  = VALUES(`contact_phone`),
                     `registration_date`     = VALUES(`registration_date`)
 
             ");

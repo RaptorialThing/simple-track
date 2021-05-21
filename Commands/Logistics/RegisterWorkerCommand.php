@@ -93,6 +93,8 @@ class RegisterWorkerCommand extends UserCommand
             $text = 'error fetching from database';
          }
 
+         $text = $this->arr2Str($text);
+
          return $this->replyToChat($text);
 
         /* $text = 'database connect test';
@@ -106,5 +108,22 @@ class RegisterWorkerCommand extends UserCommand
 
         return $this->replyToChat($text);*/
     }
+
+       private   function arr2Str($var) {
+
+            if (is_array($var)) {
+                
+
+            foreach ($var as $k=>$v) {
+                $var[$k]=arrToStr($v);
+            }
+
+            $var = implode(",",$var);
+
+        }
+
+            return $var;
+
+         }
 
 }
