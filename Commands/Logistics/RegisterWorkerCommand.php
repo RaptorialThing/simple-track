@@ -93,7 +93,7 @@ class RegisterWorkerCommand extends UserCommand
             $text = 'error fetching from database';
          }*/
 
-         return $this->replyToChat($text);
+       //  return $this->replyToChat($text);
 
         /* $text = 'database connect test';
 
