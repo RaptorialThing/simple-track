@@ -101,6 +101,13 @@ class RegisterWorkerCommand extends UserCommand
 
         $state = $notes['state'] ?? 0;
 
+        $keyboard = new Keyboard(
+            ['7', '8', '9'],
+            ['4', '5', '6'],
+            ['1', '2', '3'],
+            [' ', '0', ' ']
+        );
+
         $result = Request::emptyResponse();
 
         switch ($state) {
@@ -112,7 +119,10 @@ class RegisterWorkerCommand extends UserCommand
                     $data['text'] = 'Напишите код города :';
 
                     $result = Request::sendMessage($data);
-                    break;
+                    return $this->replyToChat('Напишите код города', [
+                        'reply_markup' => $keyboard,
+                    ]);
+                    
                 }
 
                     $notes['address'] = $text;
