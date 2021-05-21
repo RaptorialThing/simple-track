@@ -100,7 +100,6 @@ class RegisterWorkerCommand extends UserCommand
         !is_array($notes) && $notes = [];
 
         $state = $notes['state'] ?? 0;
-        $text = 'уточнение данных';
 
         $result = Request::emptyResponse();
 
