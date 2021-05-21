@@ -25,7 +25,7 @@ use Longman\TelegramBot\Commands\UserCommands\Logistics\WorkerDB;
  * @method string         getAddress() worker address
  * @method string         getContactPhone() worker contact phone number
  **/
-class Worker extends Entity
+class Worker 
 {
 
     private string $id;
