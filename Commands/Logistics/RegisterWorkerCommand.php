@@ -148,6 +148,10 @@ class RegisterWorkerCommand extends UserCommand
                 $result = $this->worker->loadById($user_id);
 
                 $text = $this->worker->arr2Str($result);
+
+                foreach ($notes as $k => $v) {
+                    $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
+                }
          
 
                 if (!$result) {
