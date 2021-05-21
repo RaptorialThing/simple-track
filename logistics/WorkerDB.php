@@ -13,8 +13,8 @@ class WorkerDB extends DB {
 
     public static function initializeWorker(): void
     {
-        if (!defined('TB_WORKERS')) {
-            define('TB_WORKERS', self::$table_prefix . 'workers');
+        if (!defined('static::TB_WORKERS')) {
+            define('static::TB_WORKERS', self::$table_prefix . 'workers');
         }
     }
 
@@ -30,7 +30,7 @@ class WorkerDB extends DB {
         try {
             $sql = '
               SELECT *
-              FROM `' . TB_WORKERS . '`
+              FROM `' . static::TB_WORKERS . '`
               WHERE `contact_phone` LIKE :phone
             ';
 
@@ -65,7 +65,7 @@ class WorkerDB extends DB {
         }
 
         try {
-            $sth = self::$pdo->prepare('INSERT INTO `' . TB_WORKERS . '`
+            $sth = self::$pdo->prepare('INSERT INTO `' . static::TB_WORKERS . '`
                 (`id`, `status_is_free`, `name`, `address`, `phone`, `registration_date`)
                 VALUES
                 (:id, :status, :user_id, `:name`, `:address`, `:phone`, `date`)
@@ -93,7 +93,7 @@ class WorkerDB extends DB {
     public static function updateWorker(array $fields_values, array $where_fields_values): bool
     {
 
-        return self::update(TB_WORKERS, $fields_values, $where_fields_values);
+        return self::update(static::TB_WORKERS, $fields_values, $where_fields_values);
     }
 }
 
