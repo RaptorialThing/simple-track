@@ -135,7 +135,7 @@ class RegisterWorkerCommand extends UserCommand
 
         }                
 
-         $this->worker = new Worker($user_id,$username,$notes[address],true,$notes['phone']);
+         $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
 
          $result = $this->worker->insert();
 
