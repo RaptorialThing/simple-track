@@ -25,7 +25,7 @@ use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 
-class UserCommand extends UserCommand
+class RegisterWorkerCommand extends UserCommand
 {
     /**
      * @var string
