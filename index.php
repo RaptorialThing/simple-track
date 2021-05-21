@@ -13,9 +13,8 @@ try {
     $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
 
 
-    $result = Request::sendMessage([
-    'chat_id' => '-489273514',
-    'text'    => 'Your utf8 text 😜 ...',
+    $result = Request::checkChatInvite([
+    'chat_id' => '-489273514'
 ]);
     if ($result->isOk()) {
         echo $result->getDescription();
