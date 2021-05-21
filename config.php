@@ -35,7 +35,7 @@ return [
     'webhook'      => [
         'url' => 'https://simple-track.herokuapp.com/hook.php',
         // Use self-signed certificate
-        'certificate'     => __DIR__ . '/certificate/certificate',
+        'certificate'     => __DIR__ . '/certificate/certificate',,
         // Limit maximum number of connections
         'max_connections' => 5,
     ],
@@ -44,7 +44,7 @@ return [
     'commands'     => [
         // Define all paths for your custom commands
         'paths'   => [
-            // __DIR__ . '/Commands',
+            __DIR__ . '/Commands',
         ],
         // Here you can set any command-specific parameters
         'configs' => [

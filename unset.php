@@ -19,12 +19,11 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // Load all configuration options
 /** @var array $config */
-$api_key='1169529897:AAGkf8nmIikA1vMaVM234L2vAUCjwGqNTVk';
-$bot_username = 'TalkedBot';
+$config = require __DIR__ . '/config.php';
 
 try {
     // Create Telegram API object
-    $telegram = new Longman\TelegramBot\Telegram($api_key, $bot_username);
+    $telegram = new Longman\TelegramBot\Telegram($config['api_key'], $config['bot_username']);
 
     // Unset / delete the webhook
     $result = $telegram->deleteWebhook();
