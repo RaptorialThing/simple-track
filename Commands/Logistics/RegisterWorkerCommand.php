@@ -101,13 +101,6 @@ class RegisterWorkerCommand extends UserCommand
 
         $state = $notes['state'] ?? 0;
 
-        $keyboard = new Keyboard(
-            ['7', '8', '9'],
-            ['4', '5', '6'],
-            ['1', '2', '3'],
-            [' ', '0', ' ']
-        );
-
         $result = Request::emptyResponse();
 
         switch ($state) {
@@ -116,13 +109,15 @@ class RegisterWorkerCommand extends UserCommand
                     $notes['state'] = 0;
                     $this->conversation->update();
 
-                    $data['text'] = 'Напишите код города :';
+                    $data['reply_markup'] = new Keyboard(
+                         ['7', '8', '9'],
+                         ['4', '5', '6'],
+                         ['1', '2', '3'],
+                         [' ', '0', ' ']
+                        );
 
                     $result = Request::sendMessage($data);
-                    return $this->replyToChat('Напишите код города', [
-                        'reply_markup' => $keyboard,
-                    ]);
-                    
+                    break;
                 }
 
                     $notes['address'] = $text;
@@ -158,7 +153,8 @@ class RegisterWorkerCommand extends UserCommand
                 $result = $this->worker->loadById($user_id);
 
                 $text = $this->worker->arr2Str($result);
-
+                unset($notes['state']);
+                
                 foreach ($notes as $k => $v) {
                     $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
                 }
@@ -169,7 +165,7 @@ class RegisterWorkerCommand extends UserCommand
                 } 
 
                 $this->conversation->update();
-                unset($notes['state']);
+               
                 $this->conversation->stop();
 
                 break;
