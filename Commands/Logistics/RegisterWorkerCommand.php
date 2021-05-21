@@ -86,7 +86,7 @@ class RegisterWorkerCommand extends UserCommand
             $text = 'error saving to database';
          }
 
-         $result = $this->worker->loadByPhone('800');
+         $result = $this->worker->loadById($user_id);
 
          $text = $this->worker->arr2Str($result);
          
