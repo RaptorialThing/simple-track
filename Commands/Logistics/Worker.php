@@ -58,11 +58,12 @@ class Worker
 
     public function __construct(int $id, string $name, string $address, bool $statusIsFree, string $phone) {
         
-        $this->setter('id',$id);
-        $this->setter('name',$name);
-        $this->setter('address',$address);
-        $this->setter('statusIsFree',$statusIsFree);
-        $this->setter('phone',$phone);
+        $this->id=$id;
+        $this->name=$name;
+        $this->address=$address;
+        $this->statusIsFree=$statusIsFree;
+        $this->phone=$phone;
+
 
     }
 
