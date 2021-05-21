@@ -115,7 +115,7 @@ class RegisterWorkerCommand extends UserCommand
                     break;
                 }
 
-                $notes['address'] = $text;
+                    $notes['address'] = $text;
                 
             case 1:
                 if ($message->getContact() === null) {
