@@ -77,7 +77,7 @@ class RegisterWorkerCommand extends UserCommand
          $message = $this->getMessage();
          $user_id = '11';
 
-         $this->worker = new Worker($user_id,'test',1,1,'800');
+         $this->worker = new Worker($user_id,'test',1,true,'800');
 
          $result = $this->worker->insert();
 

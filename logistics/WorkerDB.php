@@ -56,7 +56,7 @@ class WorkerDB extends DB {
      * Insert worker in the database
      *
      */
-    public static function insertWorker(int $id, string $name,int $address=1, bool $statusIsFree=1, string $phone ): bool
+    public static function insertWorker(int $id, string $name,int $address=1, bool $statusIsFree=true, string $phone ): bool
     {
         if (!self::isDbConnected()) {
             return false;
