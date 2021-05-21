@@ -82,7 +82,7 @@ class RegisterWorkerCommand extends UserCommand
          $chat    = $message->getChat();
          $user_id = $message->getFrom()->getId();
          $username = $message->getFrom()->getFirstName();
-         $text    = trim($message->getText(true));
+         $text    = 'kkkkkl';//trim($message->getText(true));
          $chat_id = $chat->getId();
 
         $data = [
