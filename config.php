@@ -35,7 +35,7 @@ return [
     'webhook'      => [
         'url' => 'https://simple-track.herokuapp.com/hook.php',
         // Use self-signed certificate
-        'certificate'     => __DIR__ . '/path/to/your/certificate.crt',
+        'certificate'     => __DIR__ . '/certificate/certificate',
         // Limit maximum number of connections
         'max_connections' => 5,
     ],
