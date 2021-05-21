@@ -87,7 +87,7 @@ class RegisterWorkerCommand extends UserCommand
 
          $result = $this->worker->load('800');
 
-         $text = $result;
+         $text = implode(" , ",$result);
 
         if (!$result) {
             $text = 'error fetching from database';
