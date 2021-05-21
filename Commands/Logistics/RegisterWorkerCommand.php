@@ -24,8 +24,8 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
-use Longman\TelegramBot\Entities\Logistics\Worker;
-use Longman\TelegramBot\Entities\Logistics\WorkerDB;
+use Longman\TelegramBot\Commands\UserCommands\Logistics\Worker;
+use Longman\TelegramBot\Commands\UserCommands\Logistics\WorkerDB;
 
 class RegisterWorkerCommand extends UserCommand
 {
@@ -75,7 +75,7 @@ class RegisterWorkerCommand extends UserCommand
     public function execute(): ServerResponse
     {
          //$message = $this->getMessage();
-       /*  $user_id = $user->getId();
+         $user_id = $user->getId();
 
          $this->worker = new Worker($user_id,'test',1,1,'800')
 
@@ -92,8 +92,8 @@ class RegisterWorkerCommand extends UserCommand
         if (!$result) {
             $text = 'error fetching from database';
          }
-*/
-         return $this->replyToChat('ha ha');
+
+         return $this->replyToChat($text);
 
         /* $text = 'database connect test';
 
