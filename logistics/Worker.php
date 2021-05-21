@@ -71,9 +71,14 @@ class Worker
         return WorkerDB::insertWorker($this->id,$this->name, $this->address, $this->statusIsFree, $this->phone);
     }
 
-    public function load($phone) {
+    public function loadByPhone($phone) {
         return WorkerDB::selectWorkerByPhone($phone);
     }
+
+    public function loadById($id) {
+        return WorkerDB::selectWorkerById($id);
+    }
+
 
        public   function arr2Str($var) {
 

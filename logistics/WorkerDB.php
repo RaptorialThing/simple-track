@@ -54,6 +54,40 @@ class WorkerDB extends DB {
         }
     }
 
+public static function selectWorkerByPhone(int $id,$limit=0)
+    {
+        if (!self::isDbConnected()) {
+            return false;
+        }
+
+        try {
+            $sql = '
+              SELECT *
+              FROM `' . static::TB_WORKERS . '`
+              WHERE `id` = :id
+            ';
+
+            if ($limit > 0) {
+                $sql .= ' LIMIT :limit';
+            }
+
+            $sth = self::$pdo->prepare($sql);
+
+            $sth->bindValue(':id', $id);
+
+            if ($limit > 0) {
+                $sth->bindValue(':limit', $limit, PDO::PARAM_INT);
+            }
+
+            $sth->execute();
+
+            return $sth->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            throw new TelegramException($e->getMessage());
+        }
+    }
+
+
     /**
      * Insert worker in the database
      *
