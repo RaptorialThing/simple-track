@@ -29,6 +29,7 @@ use Logistics\WorkerDB;
 use Longman\TelegramBot\Conversation;
 use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Entities\KeyboardButton;
+use Longman\TelegramBot\Request;
 
 class RegisterWorkerCommand extends UserCommand
 {
