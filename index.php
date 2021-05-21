@@ -15,7 +15,7 @@ try {
 
     $result = Request::sendChatAction([
     'chat_id' => '-489273514',
-    'action' => Longman\TelegramBot\ChatAction::TYPING//EXPORT_CHAT_INVITE
+    'action' => Longman\TelegramBot\ChatAction::UPLOAD_PHOTO//EXPORT_CHAT_INVITE
 ]);
     if ($result->isOk()) {
         print_r($result);
