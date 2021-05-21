@@ -69,6 +69,15 @@ class WorkerDB extends DB {
                 (`id`, `name`, `address`, `status_is_free`, `contact_phone`, `registration_date`)
                 VALUES
                 (:id, :name, :address, :status, :phone, :date)
+
+                            ON DUPLICATE KEY UPDATE
+                    `name`         = VALUES(`name`),
+                    `id`       = VALUES(`id`),
+                    `address`     = VALUES(`address`),
+                    `status_is_free`      = VALUES(`status`),
+                    `contact_phone`  = VALUES(`phone`),
+                    `registration_date`     = VALUES(`date`)
+
             ");
 
             $date = self::getTimestamp();
