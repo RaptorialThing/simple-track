@@ -105,18 +105,22 @@ class RegisterWorkerCommand extends UserCommand
 
         switch ($state) {
             case 0:
-                if ($text === '') {
+                if ($message->getContact() === null) {
                     $notes['state'] = 0;
                     $this->conversation->update();
 
-                    $data['text'] = 'Поделитесь номером телефона:';
+                    $data['reply_markup'] = (new Keyboard(
+                        (new KeyboardButton('Share Contact'))->setRequestContact(true)
+                    ))
+                        ->setOneTimeKeyboard(true)
+                        ->setResizeKeyboard(true)
+                        ->setSelective(true);
+
+                    $data['text'] = 'Поделитесь вашим номером:';
 
                     $result = Request::sendMessage($data);
                     break;
-                }
-
-                $notes['phone'] = $text;
-                $text          = '';
+                }        = '';
 
             // No break!
             case 1:
@@ -132,27 +136,41 @@ class RegisterWorkerCommand extends UserCommand
 
                 $notes['address'] = $text;
                 $text             = '';
+            case 2:
+                $this->conversation->update();
+                unset($notes['state']);
+                foreach ($notes as $k => $v) {
+                    $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
+                }
 
-        }                
+                $data['caption'] = $text;
 
-         $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
 
-         $result = $this->worker->insert();
+                $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
 
-         if (!$result) {
-            $text = 'error saving to database';
-         }
+                $result = $this->worker->insert();
 
-         $result = $this->worker->loadById($user_id);
+                if (!$result) {
+                    $text = 'error saving to database';
+                }
 
-         $text = $this->worker->arr2Str($result);
+                $result = $this->worker->loadById($user_id);
+
+                $text = $this->worker->arr2Str($result);
          
 
-        if (!$result) {
-            $text = 'error fetching from database';
-         } 
+                if (!$result) {
+                    $text = 'error fetching from database';
+                } 
 
-         return $this->replyToChat($text);
+                return $this->replyToChat($text);
+
+
+                $this->conversation->stop();
+
+                $result = Request::sendPhoto($data);
+                break;
+        }                
 
         /* $text = 'database connect test';
 
