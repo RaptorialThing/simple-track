@@ -75,7 +75,7 @@ class Worker
         return WorkerDB::selectWorkerByPhone($phone);
     }
 
-       private   function arr2Str($var) {
+       public   function arr2Str($var) {
 
             if (is_array($var)) {
                 
