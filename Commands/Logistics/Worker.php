@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Longman\TelegramBot\Commands\Logistics;
+namespace Longman\TelegramBot\Commands\UserCommands;
 
 use Longman\TelegramBot\Entities\Entity;
 use Longman\TelegramBot\Commands\UserCommands\Logistics\WorkerDB;

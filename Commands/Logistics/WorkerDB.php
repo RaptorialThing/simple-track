@@ -1,6 +1,6 @@
 <?php
 
-namespace Longman\TelegramBot\Commands\Logistics;
+namespace Longman\TelegramBot\Commands\UserCommands;
 
 use Exception;
 use Longman\TelegramBot\Exception\TelegramException;
