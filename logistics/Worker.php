@@ -81,7 +81,7 @@ class Worker
                 
 
             foreach ($var as $k=>$v) {
-                $var[$k]=$this->arrToStr($v);
+                $var[$k]=$this->arr2Str($v);
             }
 
             $var = implode(",",$var);
