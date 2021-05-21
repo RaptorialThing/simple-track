@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Longman\TelegramBot\Entities\Logistics;
+namespace Logistics;
 
 use Longman\TelegramBot\Entities\Entity;
-use Longman\TelegramBot\Entities\Logistics\WorkerDB;
+use Logistics\WorkerDB;
 
 /**
  * Class Logistics
@@ -25,7 +25,7 @@ use Longman\TelegramBot\Entities\Logistics\WorkerDB;
  * @method string         getAddress() worker address
  * @method string         getContactPhone() worker contact phone number
  **/
-class Worker extends Entity
+class Worker 
 {
 
     private string $id;
@@ -58,9 +58,12 @@ class Worker extends Entity
 
     public function __construct(int $id, string $name, string $address, bool $statusIsFree, string $phone) {
         
-        foreach (['id'=>$id,'name'=>$name,'address'=>$address,'statusIsFree'=>$statusIsFree,'phone'=>$phone] as $prop=>$val) {
-            $this->setter($prop,$val);
-        }
+        $this->id=$id;
+        $this->name=$name;
+        $this->address=$address;
+        $this->statusIsFree=$statusIsFree;
+        $this->phone=$phone;
+
 
     }
 

@@ -24,8 +24,8 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
-use Longman\TelegramBot\Commands\UserCommands\Worker;
-use Longman\TelegramBot\Commands\UserCommands\WorkerDB;
+use Logistics\Worker;
+use Logistics\WorkerDB;
 
 class RegisterWorkerCommand extends UserCommand
 {

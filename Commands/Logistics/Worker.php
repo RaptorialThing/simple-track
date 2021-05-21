@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Longman\TelegramBot\Commands\UserCommands;
+namespace Logistics;
 
 use Longman\TelegramBot\Entities\Entity;
-use Longman\TelegramBot\Commands\UserCommands\Logistics\WorkerDB;
+use Longman\TelegramBot\Commands\UserCommands\WorkerDB;
 
 /**
  * Class Logistics

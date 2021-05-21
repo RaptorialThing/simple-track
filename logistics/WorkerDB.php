@@ -1,6 +1,6 @@
 <?php
 
-namespace Longman\TelegramBot\Entities\Logistics;
+namespace Logistics;
 
 use Exception;
 use Longman\TelegramBot\Exception\TelegramException;
