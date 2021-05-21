@@ -112,7 +112,6 @@ class RegisterWorkerCommand extends UserCommand
                     $data['text'] = 'Напишите код города :';
 
                     $result = Request::sendMessage($data);
-                    return $this->replyToChat($result);
                     break;
                 }
 
@@ -133,7 +132,6 @@ class RegisterWorkerCommand extends UserCommand
                     $data['text'] = 'Поделитесь вашим номером:';
 
                     $result = Request::sendMessage($data);
-                    return $this->replyToChat($result);
                     break;
                 }        
                     $notes['phone'] = $message->getContact()->getPhoneNumber();
@@ -177,6 +175,7 @@ class RegisterWorkerCommand extends UserCommand
         } 
 
         return $this->replyToChat($text);*/
+        return $this->replyToChat($text);
     }
 
 
