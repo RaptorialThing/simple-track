@@ -133,7 +133,9 @@ class RegisterWorkerCommand extends UserCommand
                         ->setOneTimeKeyboard(true)
                         ->setResizeKeyboard(true)
                         ->setSelective(true);
-                        
+
+                    $data['text'] = 'Поделитесь вашим номером:';
+
                     $result = Request::sendMessage($data);
                     break;
                 }        
@@ -151,7 +153,7 @@ class RegisterWorkerCommand extends UserCommand
                 $result = $this->worker->loadById($user_id);
 
                 $text = $this->worker->arr2Str($result);
-                unset($notes['state']);
+
                 foreach ($notes as $k => $v) {
                     $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
                 }
@@ -162,7 +164,7 @@ class RegisterWorkerCommand extends UserCommand
                 } 
 
                 $this->conversation->update();
-               
+                unset($notes['state']);
                 $this->conversation->stop();
 
                 break;

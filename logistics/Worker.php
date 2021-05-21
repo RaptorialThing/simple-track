@@ -89,7 +89,7 @@ class Worker
                 $var[$k]=$this->arr2Str($v);
             }
 
-            $var = implode(", ",$var);
+            $var = implode(",",$var);
 
         }
 
