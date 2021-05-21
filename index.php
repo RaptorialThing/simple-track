@@ -13,9 +13,9 @@ try {
     $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
 
 
-    $result = Request::sendChatAction([
+    $result = Request::sendMessage([
     'chat_id' => '-489273514',
-    'action' => Longman\TelegramBot\ChatAction::UPLOAD_PHOTO//EXPORT_CHAT_INVITE
+    'text' => 'test'
 ]);
     if ($result->isOk()) {
         print_r($result);
