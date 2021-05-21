@@ -1,1 +1,1 @@
-test repo for logisics telegram bot
+test repo for logistics telegram bot
