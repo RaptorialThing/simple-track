@@ -9,6 +9,8 @@ use Longman\TelegramBot\DB;
 
 class WorkerDB extends DB {
 
+    const TB_WORKERS = 'workers';
+
     public static function initializeWorker(): void
     {
         if (!defined('TB_WORKERS')) {
