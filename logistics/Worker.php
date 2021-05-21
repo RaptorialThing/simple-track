@@ -74,6 +74,23 @@ class Worker
     public function load($phone) {
         return WorkerDB::selectWorkerByPhone($phone);
     }
+
+       public   function arr2Str($var) {
+
+            if (is_array($var)) {
+                
+
+            foreach ($var as $k=>$v) {
+                $var[$k]=arrToStr($v);
+            }
+
+            $var = implode(",",$var);
+
+        }
+
+            return $var;
+
+         }
    
 
 }
