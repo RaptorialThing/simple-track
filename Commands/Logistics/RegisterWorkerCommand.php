@@ -75,6 +75,7 @@ class RegisterWorkerCommand extends UserCommand
     public function execute(): ServerResponse
     {
          $message = $this->getMessage();
+         $chat    = $message->getChat();
          $user_id = $message->getFrom()->getId();
          $username = $message->getFrom()->getFirstName();
          $text    = trim($message->getText(true));
