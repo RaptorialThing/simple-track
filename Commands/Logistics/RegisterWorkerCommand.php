@@ -105,8 +105,21 @@ class RegisterWorkerCommand extends UserCommand
 
         switch ($state) {
             case 0:
-                if ($message->getContact() === null) {
+            // No break!
+                if ($text === '') {
                     $notes['state'] = 0;
+                    $this->conversation->update();
+
+                    $data['text'] = 'Напишите код города :';
+
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+
+                    $notes['address'] = $text;               
+            case 1:
+                 if ($message->getContact() === null) {
+                    $notes['state'] = 1;
                     $this->conversation->update();
 
                     $data['reply_markup'] = (new Keyboard(
@@ -122,19 +135,6 @@ class RegisterWorkerCommand extends UserCommand
                     break;
                 }        
                     $notes['phone'] = $message->getContact()->getPhoneNumber();
-            // No break!
-            case 1:
-                if ($text === '') {
-                    $notes['state'] = 1;
-                    $this->conversation->update();
-
-                    $data['text'] = 'Напишите код города :';
-
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-
-                    $notes['address'] = $text;                
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
 
@@ -147,7 +147,7 @@ class RegisterWorkerCommand extends UserCommand
                 $result = $this->worker->loadById($user_id);
 
                 $text = $this->worker->arr2Str($result);
-
+                unset($notes['state']);
                 foreach ($notes as $k => $v) {
                     $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
                 }
@@ -160,7 +160,7 @@ class RegisterWorkerCommand extends UserCommand
                 $result = $this->replyToChat($text);
 
                 $this->conversation->update();
-                unset($notes['state']);
+                
                 $this->conversation->stop();
 
                 break;
