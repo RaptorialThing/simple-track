@@ -104,6 +104,20 @@ class RegisterWorkerCommand extends UserCommand
         $result = Request::emptyResponse();
 
         switch ($state) {
+            // No break!
+            case 0:
+                if ($textMsg === '') {
+                    $notes['state'] = 0;
+                    $this->conversation->update();
+
+                    $data['text'] = 'Напишите код города :';
+
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+
+                $notes['address'] = $textMsg;
+                $textMsg             = '';
             case 1:
                 if ($message->getContact() === null) {
                     $notes['state'] = 1;
@@ -123,22 +137,6 @@ class RegisterWorkerCommand extends UserCommand
                 }        
                     $notes['phone'] = $textMsg;
                     $textMsg             = '';
-
-            // No break!
-            case 0:
-                if ($textMsg === '') {
-                    $notes['state'] = 0;
-                    $this->conversation->update();
-
-                    $data['text'] = 'Напишите код города :';
-
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-
-                $notes['address'] = $textMsg;
-                $textMsg             = '';
-
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
                 $this->conversation->update();
