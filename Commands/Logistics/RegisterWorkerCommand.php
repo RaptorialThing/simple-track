@@ -82,7 +82,7 @@ class RegisterWorkerCommand extends UserCommand
          $chat    = $message->getChat();
          $user_id = $message->getFrom()->getId();
          $username = $message->getFrom()->getFirstName();
-         $text    = trim($message->getText(true));
+         $textMsg    = trim($message->getText(true));
          $chat_id = $chat->getId();
 
         $data = [
@@ -94,20 +94,33 @@ class RegisterWorkerCommand extends UserCommand
         if ($chat->isGroupChat() || $chat->isSuperGroup()) {
             // Force reply is applied by default so it can work with privacy on
             $data['reply_markup'] = Keyboard::forceReply(['selective' => true]);
-        }
+        } 
         $this->conversation = new Conversation($user_id, $chat_id, $this->getName());        
-        $notes = &$this->conversation->notes;
+        $notes = $this->conversation->notes;
         !is_array($notes) && $notes = [];
 
         $state = $notes['state'] ?? 0;
-        $text = 'уточнение данных';
 
         $result = Request::emptyResponse();
 
         switch ($state) {
+            // No break!
             case 0:
-                if ($message->getContact() === null) {
+                if ($textMsg === '') {
                     $notes['state'] = 0;
+                    $this->conversation->update();
+
+                    $data['text'] = 'Напишите код города :';
+
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+
+                $notes['address'] = $textMsg;
+                //$textMsg             = '';
+            case 1:
+                if ($message->getContact() === null) {
+                    $notes['state'] = 1;
                     $this->conversation->update();
 
                     $data['reply_markup'] = (new Keyboard(
@@ -120,49 +133,36 @@ class RegisterWorkerCommand extends UserCommand
                     $data['text'] = 'Поделитесь вашим номером:';
 
                     $result = Request::sendMessage($data);
+                    break;
                 }        
-                    $notes['phone'] = $text;
-                    $text             = '';
-                    
-                    break;
-
-            // No break!
-            case 1:
-                if ($text === '') {
-                    $notes['state'] = 1;
-                    $this->conversation->update();
-
-                    $data['text'] = 'Напишите код города :';
-
-                    $result = Request::sendMessage($data);
-                    break;
-                }
-
-                $notes['address'] = $text;
-                $text             = '';
+                $notes['phone'] = $textMsg;
+                //$textMsg             = '';
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
+                unset($notes['state']);
+                $this->conversation->update();
 
-                $result = $this->worker->insert();
+                $resultQuery = $this->worker->insert();
 
-                if (!$result) {
+                if (!$resultquery) {
                     $text = 'error saving to database';
                 }
 
-                $result = $this->worker->loadById($user_id);
+                $resultQuery = $this->worker->loadById($user_id);
 
-                $text = $this->worker->arr2Str($result);
-         
+                $text = $this->worker->arr2Str($resultQuery);
 
-                if (!$result) {
+                
+                foreach ($notes as $k => $v) {
+                    $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
+                }       
+
+                if (!$resultQuery) {
                     $text = 'error fetching from database';
                 } 
 
-                $this->conversation->update();
-                unset($notes['state']);
+                $resultQuery = $text;
                 $this->conversation->stop();
-
-                return $this->replyToChat($text);
                 break;
         }                
 
