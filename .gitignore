@@ -1,3 +1,4 @@
 /vendor/
 /certificace/YOURPUBLIC.pem
 /cerificate/YOURPRIVATE.key
+config.php
