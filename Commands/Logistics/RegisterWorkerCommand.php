@@ -119,11 +119,10 @@ class RegisterWorkerCommand extends UserCommand
                     $data['text'] = 'Поделитесь вашим номером:';
 
                     $result = Request::sendMessage($data);
+                    break;
                 }        
                     $notes['phone'] = $textMsg;
                     $textMsg             = '';
-                    
-                    break;
 
             // No break!
             case 1:
@@ -139,6 +138,7 @@ class RegisterWorkerCommand extends UserCommand
 
                 $notes['address'] = $textMsg;
                 $textMsg             = '';
+
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
                 $this->conversation->update();
@@ -164,8 +164,6 @@ class RegisterWorkerCommand extends UserCommand
 
                 $result = $text;
                 $this->conversation->stop();
-
-                return $this->replyToChat($text);
                 break;
         }                
 
