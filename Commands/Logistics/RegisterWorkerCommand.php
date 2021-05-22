@@ -115,9 +115,7 @@ class RegisterWorkerCommand extends UserCommand
                     break;
                 }
 
-                    $notes['address'] = $text;
-                    $notes['state'] = 1;
-                
+                    $notes['address'] = $text;                
             case 1:
                 if ($message->getContact() === null) {
                     $notes['state'] = 1;
@@ -136,7 +134,6 @@ class RegisterWorkerCommand extends UserCommand
                     break;
                 }        
                     $notes['phone'] = $message->getContact()->getPhoneNumber();
-                    $notes['state'] = 2;
             // No break!
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
