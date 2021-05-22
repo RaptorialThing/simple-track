@@ -157,7 +157,7 @@ class RegisterWorkerCommand extends UserCommand
                     $text = 'error fetching from database';
                 } 
 
-                $result = $this->replyToChat($text);
+                $result = $text;
 
                 $this->conversation->update();
                 
@@ -176,8 +176,8 @@ class RegisterWorkerCommand extends UserCommand
         } 
 
         return $this->replyToChat($text);*/
-        //return $this->replyToChat($text);
-        return $result;
+        return $this->replyToChat($result);
+
     }
 
 
