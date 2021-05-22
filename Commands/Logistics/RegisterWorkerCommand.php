@@ -88,15 +88,15 @@ class RegisterWorkerCommand extends UserCommand
         $data = [
             'chat_id'      => $chat_id,
             // Remove any keyboard by default
-            //'reply_markup' => Keyboard::remove(['selective' => true]),
+            'reply_markup' => Keyboard::remove(['selective' => true]),
         ];
-/*
+
         if ($chat->isGroupChat() || $chat->isSuperGroup()) {
             // Force reply is applied by default so it can work with privacy on
             $data['reply_markup'] = Keyboard::forceReply(['selective' => true]);
-        } */
+        } 
         $this->conversation = new Conversation($user_id, $chat_id, $this->getName());        
-        $notes = $this->conversation->notes;
+        $notes = &$this->conversation->notes;
         !is_array($notes) && $notes = [];
 
         $state = $notes['state'] ?? 0;
