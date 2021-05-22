@@ -82,7 +82,7 @@ class RegisterWorkerCommand extends UserCommand
          $chat    = $message->getChat();
          $user_id = $message->getFrom()->getId();
          $username = $message->getFrom()->getFirstName();
-         $text    = trim($message->getText(true));
+         $textMsg    = trim($message->getText(true));
          $chat_id = $chat->getId();
 
         $data = [
@@ -120,14 +120,14 @@ class RegisterWorkerCommand extends UserCommand
 
                     $result = Request::sendMessage($data);
                 }        
-                    $notes['phone'] = $text;
-                    $text             = '';
+                    $notes['phone'] = $textMsg;
+                    $textMsg             = '';
                     
                     break;
 
             // No break!
             case 1:
-                if ($text === '') {
+                if ($textMsg === '') {
                     $notes['state'] = 1;
                     $this->conversation->update();
 
@@ -137,8 +137,8 @@ class RegisterWorkerCommand extends UserCommand
                     break;
                 }
 
-                $notes['address'] = $text;
-                $text             = '';
+                $notes['address'] = $textMsg;
+                $textMsg             = '';
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
                 $this->conversation->update();
