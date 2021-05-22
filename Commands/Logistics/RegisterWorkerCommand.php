@@ -117,7 +117,7 @@ class RegisterWorkerCommand extends UserCommand
                 }
 
                 $notes['address'] = $textMsg;
-                $textMsg             = '';
+                //$textMsg             = '';
             case 1:
                 if ($message->getContact() === null) {
                     $notes['state'] = 1;
@@ -136,32 +136,32 @@ class RegisterWorkerCommand extends UserCommand
                     break;
                 }        
                 $notes['phone'] = $textMsg;
-                $textMsg             = '';
+                //$textMsg             = '';
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
                 unset($notes['state']);
                 $this->conversation->update();
 
-                $result = $this->worker->insert();
+                $resultQuery = $this->worker->insert();
 
-                if (!$result) {
+                if (!$resultquery) {
                     $text = 'error saving to database';
                 }
 
-                $result = $this->worker->loadById($user_id);
+                $resultQuery = $this->worker->loadById($user_id);
 
-                $text = $this->worker->arr2Str($result);
+                $text = $this->worker->arr2Str($resultQuery);
 
                 
                 foreach ($notes as $k => $v) {
                     $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
                 }       
 
-                if (!$result) {
+                if (!$resultQuery) {
                     $text = 'error fetching from database';
                 } 
 
-                $result = $text;
+                $resultQuery = $text;
                 $this->conversation->stop();
                 break;
         }                
