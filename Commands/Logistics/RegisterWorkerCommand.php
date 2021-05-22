@@ -175,6 +175,7 @@ class RegisterWorkerCommand extends UserCommand
 
         return $this->replyToChat($text);*/
         //return $this->replyToChat($text);
+        return $result;
     }
 
 
