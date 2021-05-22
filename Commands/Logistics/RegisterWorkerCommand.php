@@ -135,10 +135,11 @@ class RegisterWorkerCommand extends UserCommand
                     $result = Request::sendMessage($data);
                     break;
                 }        
-                    $notes['phone'] = $textMsg;
-                    $textMsg             = '';
+                $notes['phone'] = $textMsg;
+                $textMsg             = '';
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
+                unset($notes['state']);
                 $this->conversation->update();
 
                 $result = $this->worker->insert();
@@ -151,7 +152,7 @@ class RegisterWorkerCommand extends UserCommand
 
                 $text = $this->worker->arr2Str($result);
 
-                unset($notes['state']);
+                
                 foreach ($notes as $k => $v) {
                     $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
                 }       
