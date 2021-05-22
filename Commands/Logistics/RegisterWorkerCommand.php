@@ -119,9 +119,12 @@ class RegisterWorkerCommand extends UserCommand
                     $data['text'] = 'Поделитесь вашим номером:';
 
                     $result = Request::sendMessage($data);
-                    break;
                 }        
-                    $notes['phone'] = $message->getContact()->getPhoneNumber();
+                    $notes['phone'] = $text;
+                    $text             = '';
+                    
+                    break;
+
             // No break!
             case 1:
                 if ($text === '') {
@@ -134,9 +137,11 @@ class RegisterWorkerCommand extends UserCommand
                     break;
                 }
 
-                    $notes['address'] = $text;                
+                $notes['address'] = $text;
+                $text             = '';
             case 2:
                 $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
+                $this->conversation->update();
 
                 $result = $this->worker->insert();
 
@@ -147,22 +152,20 @@ class RegisterWorkerCommand extends UserCommand
                 $result = $this->worker->loadById($user_id);
 
                 $text = $this->worker->arr2Str($result);
+
                 unset($notes['state']);
                 foreach ($notes as $k => $v) {
                     $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
-                }
-         
+                }       
 
                 if (!$result) {
                     $text = 'error fetching from database';
                 } 
 
                 $result = $text;
-
-                $this->conversation->update();
-                
                 $this->conversation->stop();
 
+                return $this->replyToChat($text);
                 break;
         }                
 
@@ -176,8 +179,8 @@ class RegisterWorkerCommand extends UserCommand
         } 
 
         return $this->replyToChat($text);*/
-        return $this->replyToChat($result);
-
+        //return $this->replyToChat($text);
+        return $result;
     }
 
 
