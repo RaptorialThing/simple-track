@@ -96,7 +96,7 @@ class RegisterWorkerCommand extends UserCommand
             $data['reply_markup'] = Keyboard::forceReply(['selective' => true]);
         } 
         $this->conversation = new Conversation($user_id, $chat_id, $this->getName());        
-        $notes = &$this->conversation->notes;
+        $notes = $this->conversation->notes;
         !is_array($notes) && $notes = [];
 
         $state = $notes['state'] ?? 0;
