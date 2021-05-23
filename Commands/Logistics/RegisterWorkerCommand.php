@@ -78,13 +78,15 @@ class RegisterWorkerCommand extends UserCommand
      */
     public function execute(): ServerResponse
     {
-         $message = $this->getMessage();
-         $chat    = $message->getChat();
-         $user_id = $message->getFrom()->getId();
-         $username = $message->getFrom()->getFirstName();
-         $textMsg    = trim($message->getText(true));
-         $chat_id = $chat->getId();
+        $message = $this->getMessage();
 
+        $chat    = $message->getChat();
+        $user    = $message->getFrom();
+        $text    = trim($message->getText(true));
+        $chat_id = $chat->getId();
+        $user_id = $user->getId();
+
+        // Preparing response
         $data = [
             'chat_id'      => $chat_id,
             // Remove any keyboard by default
@@ -94,91 +96,118 @@ class RegisterWorkerCommand extends UserCommand
         if ($chat->isGroupChat() || $chat->isSuperGroup()) {
             // Force reply is applied by default so it can work with privacy on
             $data['reply_markup'] = Keyboard::forceReply(['selective' => true]);
-        } 
-        $this->conversation = new Conversation($user_id, $chat_id, $this->getName());        
-        $notes = $this->conversation->notes;
+        }
+
+        // Conversation start
+        $this->conversation = new Conversation($user_id, $chat_id, $this->getName());
+
+        // Load any existing notes from this conversation
+        $notes = &$this->conversation->notes;
         !is_array($notes) && $notes = [];
 
+        // Load the current state of the conversation
         $state = $notes['state'] ?? 0;
 
         $result = Request::emptyResponse();
 
+        // State machine
+        // Every time a step is achieved the state is updated
         switch ($state) {
-            // No break!
             case 0:
-                if ($textMsg === '') {
+                if ($text === '') {
                     $notes['state'] = 0;
                     $this->conversation->update();
 
-                    $data['text'] = 'Напишите код города :';
+                    $data['text'] = 'Ваше имя:';
 
                     $result = Request::sendMessage($data);
                     break;
                 }
 
-                $notes['address'] = $textMsg;
-                //$textMsg             = '';
+                $notes['name'] = $text;
+                $text          = '';
+
+            // No break!
             case 1:
-                if ($message->getContact() === null) {
+                if ($message->getLocation() === null) {
                     $notes['state'] = 1;
                     $this->conversation->update();
 
                     $data['reply_markup'] = (new Keyboard(
-                        (new KeyboardButton('Share Contact'))->setRequestContact(true)
+                        (new KeyboardButton('Поделиться местоположением'))->setRequestLocation(true)
                     ))
                         ->setOneTimeKeyboard(true)
                         ->setResizeKeyboard(true)
                         ->setSelective(true);
 
-                    $data['text'] = 'Поделитесь вашим номером:';
+                    $data['text'] = 'Поделиться местоположением для поиска заказов рядом:';
 
                     $result = Request::sendMessage($data);
                     break;
-                }        
-                $notes['phone'] = $textMsg;
-                //$textMsg             = '';
+                }
+
+                $notes['longitude'] = $message->getLocation()->getLongitude();
+                $notes['latitude']  = $message->getLocation()->getLatitude();
+                $notes['address'] = ['longitude'=>$notes['longitude'],'latitude'=>$notes['latitude']];
+            // No break!
             case 2:
-                $this->worker = new Worker($user_id,$username,$notes['address'],true,$notes['phone']);
+                if ($message->getContact() === null) {
+                    $notes['state'] = 2;
+                    $this->conversation->update();
+
+                    $data['reply_markup'] = (new Keyboard(
+                        (new KeyboardButton('Поделиться телефоном'))->setRequestContact(true)
+                    ))
+                        ->setOneTimeKeyboard(true)
+                        ->setResizeKeyboard(true)
+                        ->setSelective(true);
+
+                    $data['text'] = 'Поделитесь телефоном для поиска заказов:';
+
+                    $result = Request::sendMessage($data);
+                    break;
+                }
+
+                $notes['phone_number'] = $message->getContact()->getPhoneNumber();
+
+            // No break!
+            case 3:
+                $this->conversation->update();
+
+
+                $this->worker = new Worker($user_id,$notes['name'],$notes['address'],true,$notes['phone_number']);
                 unset($notes['state']);
                 $this->conversation->update();
 
                 $resultQuery = $this->worker->insert();
 
                 if (!$resultquery) {
-                    $text = 'error saving to database';
+                    $out_text = 'error saving to database (insert)' . PHP_EOL;
                 }
 
                 $resultQuery = $this->worker->loadById($user_id);
+ 
+                if (!$resultquery) {
+                    $out_text .= 'error saving to database (select)' . PHP_EOL;
+                }
 
-                $text = $this->worker->arr2Str($resultQuery);
-
-                
+                $out_text .= '/Спасибо за регистрацию. Заказы будут появляться в этом чате:' . PHP_EOL;
+                unset($notes['state']);
                 foreach ($notes as $k => $v) {
-                    $text .= PHP_EOL . ucfirst($k) . ': ' . $v;
-                }       
+                    $out_text .= PHP_EOL . ucfirst($k) . ': ' . $v;
+                }
 
-                if (!$resultQuery) {
-                    $text = 'error fetching from database';
-                } 
+                $data['text'] = $out_text;
 
-                $resultQuery = $text;
                 $this->conversation->stop();
+
+                $result = Request::sendMessage($data);
                 break;
-        }                
+        }
 
-        /* $text = 'database connect test';
-
-        $message = $this->getMessage();
-        $userText    = $message->getText(true);
-
-        if ($userText === '') {
-            return $this->replyToChat('Command usage: ' . $this->getUsage());
-        } 
-
-        return $this->replyToChat($text);*/
-        //return $this->replyToChat($text);
         return $result;
     }
 
 
 }
+

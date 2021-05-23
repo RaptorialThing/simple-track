@@ -71,10 +71,12 @@ class WorkerDB extends DB {
 
             $date = self::getTimestamp();
 
+            $addressPrepared = json_encode($address,true);
+
             $sth->bindValue(':id', $id)
             $sth->bindValue(':status', 1);
             $sth->bindValue(':name', $name);
-            $sth->bindValue(':address', $address);
+            $sth->bindValue(':address', $addressPrepared);
             $sth->bindValue(':phone', $phone);
             $sth->bindValue(':date', $date);
 
